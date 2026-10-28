@@ -1,0 +1,5 @@
+BEGIN;
+
+INSERT INTO plans VALUES (1, 'free');
+
+COMMIT;

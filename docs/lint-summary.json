@@ -1,0 +1,256 @@
+{
+  "root": "E:\\GitHub Project\\Small project-1\\Small size project plan-1\\Third 8 projects\\SQL-Migration-Linter\\examples\\migrations",
+  "score": 100,
+  "grade": "F",
+  "counts": {
+    "critical": 3,
+    "high": 4,
+    "medium": 6,
+    "low": 4
+  },
+  "files": [
+    {
+      "file": "001_create_customers.sql",
+      "version": 1,
+      "statements": 1,
+      "lines": 6,
+      "findings": 2,
+      "score": 11,
+      "severities": {
+        "medium": 1,
+        "low": 1
+      }
+    },
+    {
+      "file": "002_add_customer_phone.sql",
+      "version": 2,
+      "statements": 4,
+      "lines": 6,
+      "findings": 1,
+      "score": 20,
+      "severities": {
+        "high": 1
+      }
+    },
+    {
+      "file": "003_index_customers_email.sql",
+      "version": 3,
+      "statements": 1,
+      "lines": 2,
+      "findings": 3,
+      "score": 19,
+      "severities": {
+        "medium": 2,
+        "low": 1
+      }
+    },
+    {
+      "file": "004_drop_legacy_notes.sql",
+      "version": 4,
+      "statements": 3,
+      "lines": 5,
+      "findings": 2,
+      "score": 60,
+      "severities": {
+        "critical": 1,
+        "high": 1
+      }
+    },
+    {
+      "file": "004_index_notes_created_at.sql",
+      "version": 4,
+      "statements": 1,
+      "lines": 2,
+      "findings": 2,
+      "score": 23,
+      "severities": {
+        "high": 1,
+        "low": 1
+      }
+    },
+    {
+      "file": "005_backfill_country_codes.sql",
+      "version": 5,
+      "statements": 4,
+      "lines": 7,
+      "findings": 2,
+      "score": 80,
+      "severities": {
+        "critical": 2
+      }
+    },
+    {
+      "file": "006_archive_audit_log.sql",
+      "version": 6,
+      "statements": 4,
+      "lines": 6,
+      "findings": 2,
+      "score": 28,
+      "severities": {
+        "high": 1,
+        "medium": 1
+      }
+    },
+    {
+      "file": "007_seed_plans.sql",
+      "version": 7,
+      "statements": 3,
+      "lines": 5,
+      "findings": 1,
+      "score": 8,
+      "severities": {
+        "medium": 1
+      }
+    },
+    {
+      "file": "add_reports_view.sql",
+      "version": null,
+      "statements": 1,
+      "lines": 5,
+      "findings": 2,
+      "score": 11,
+      "severities": {
+        "medium": 1,
+        "low": 1
+      }
+    }
+  ],
+  "findings": [
+    {
+      "code": "destructive-drop-table",
+      "severity": "critical",
+      "file": "004_drop_legacy_notes.sql",
+      "line": 3,
+      "message": "DROP TABLE",
+      "statement": "DROP TABLE legacy_notes"
+    },
+    {
+      "code": "unbounded-update",
+      "severity": "critical",
+      "file": "005_backfill_country_codes.sql",
+      "line": 3,
+      "message": "UPDATE without WHERE",
+      "statement": "UPDATE customers SET country_code = 'US'"
+    },
+    {
+      "code": "unbounded-delete",
+      "severity": "critical",
+      "file": "005_backfill_country_codes.sql",
+      "line": 5,
+      "message": "DELETE without WHERE",
+      "statement": "DELETE FROM audit_log"
+    },
+    {
+      "code": "not-null-without-default",
+      "severity": "high",
+      "file": "002_add_customer_phone.sql",
+      "line": 4,
+      "message": "ADD COLUMN NOT NULL without DEFAULT",
+      "statement": "ALTER TABLE customers ADD COLUMN country_code"
+    },
+    {
+      "code": "duplicate-version",
+      "severity": "high",
+      "file": "004_drop_legacy_notes.sql",
+      "line": 1,
+      "message": "version 4 is also used by 004_drop_legacy_notes.sql, 004_index_notes_created_at.sql",
+      "statement": "004_drop_legacy_notes.sql"
+    },
+    {
+      "code": "duplicate-version",
+      "severity": "high",
+      "file": "004_index_notes_created_at.sql",
+      "line": 1,
+      "message": "version 4 is also used by 004_drop_legacy_notes.sql, 004_index_notes_created_at.sql",
+      "statement": "004_index_notes_created_at.sql"
+    },
+    {
+      "code": "destructive-drop-column",
+      "severity": "high",
+      "file": "006_archive_audit_log.sql",
+      "line": 3,
+      "message": "DROP COLUMN",
+      "statement": "ALTER TABLE audit_log DROP COLUMN payload"
+    },
+    {
+      "code": "no-transaction",
+      "severity": "medium",
+      "file": "001_create_customers.sql",
+      "line": 1,
+      "message": "1 statement(s) without BEGIN/COMMIT",
+      "statement": "001_create_customers.sql"
+    },
+    {
+      "code": "no-transaction",
+      "severity": "medium",
+      "file": "003_index_customers_email.sql",
+      "line": 1,
+      "message": "1 statement(s) without BEGIN/COMMIT",
+      "statement": "003_index_customers_email.sql"
+    },
+    {
+      "code": "blocking-index-build",
+      "severity": "medium",
+      "file": "003_index_customers_email.sql",
+      "line": 2,
+      "message": "CREATE INDEX without CONCURRENTLY",
+      "statement": "CREATE INDEX idx_customers_email ON customers (email)"
+    },
+    {
+      "code": "table-rewrite-alter",
+      "severity": "medium",
+      "file": "006_archive_audit_log.sql",
+      "line": 4,
+      "message": "ALTER that rewrites or locks the table",
+      "statement": "ALTER TABLE audit_log ADD CONSTRAINT audit_created_at_not_null"
+    },
+    {
+      "code": "insert-without-columns",
+      "severity": "medium",
+      "file": "007_seed_plans.sql",
+      "line": 3,
+      "message": "INSERT without a column list",
+      "statement": "INSERT INTO plans VALUES (1, 'free')"
+    },
+    {
+      "code": "no-transaction",
+      "severity": "medium",
+      "file": "add_reports_view.sql",
+      "line": 1,
+      "message": "1 statement(s) without BEGIN/COMMIT",
+      "statement": "add_reports_view.sql"
+    },
+    {
+      "code": "missing-if-not-exists",
+      "severity": "low",
+      "file": "001_create_customers.sql",
+      "line": 2,
+      "message": "CREATE without IF NOT EXISTS",
+      "statement": "CREATE TABLE customers ( id BIGSERIAL"
+    },
+    {
+      "code": "missing-if-not-exists",
+      "severity": "low",
+      "file": "003_index_customers_email.sql",
+      "line": 2,
+      "message": "CREATE without IF NOT EXISTS",
+      "statement": "CREATE INDEX idx_customers_email ON customers (email)"
+    },
+    {
+      "code": "missing-if-not-exists",
+      "severity": "low",
+      "file": "004_index_notes_created_at.sql",
+      "line": 2,
+      "message": "CREATE without IF NOT EXISTS",
+      "statement": "CREATE INDEX CONCURRENTLY idx_notes_created_at ON notes"
+    },
+    {
+      "code": "naming-convention",
+      "severity": "low",
+      "file": "add_reports_view.sql",
+      "line": 1,
+      "message": "add_reports_view.sql",
+      "statement": "add_reports_view.sql is not named <version>_<name>.sql"
+    }
+  ]
+}

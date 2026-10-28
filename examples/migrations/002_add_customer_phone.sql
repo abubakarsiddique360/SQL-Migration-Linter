@@ -1,0 +1,6 @@
+BEGIN;
+
+ALTER TABLE customers ADD COLUMN phone TEXT;
+ALTER TABLE customers ADD COLUMN country_code TEXT NOT NULL;
+
+COMMIT;
